@@ -113,7 +113,7 @@ export const SignUpForm: React.FC = () => {
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <IconButton onClick={toggleVisibility}>
+                                            <IconButton tabIndex={-1} onClick={toggleVisibility}>
                                                 {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                             </IconButton>
                                         </InputAdornment>
@@ -136,7 +136,7 @@ export const SignUpForm: React.FC = () => {
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <IconButton onClick={toggleVisibility}>
+                                            <IconButton tabIndex={-1} onClick={toggleVisibility}>
                                                 {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                             </IconButton>
                                         </InputAdornment>

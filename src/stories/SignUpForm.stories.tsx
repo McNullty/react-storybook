@@ -7,7 +7,6 @@ export default {
     title: 'Example/SignUpForm',
     component: SignUpForm,
     argTypes: {
-        backgroundColor: { control: 'color' },
     },
 } as Meta;
 

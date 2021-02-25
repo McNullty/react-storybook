@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     Container,
-    Grid,
+    Grid, IconButton, InputAdornment,
     makeStyles,
     Paper,
     TextField,
     Typography
 } from "@material-ui/core";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -25,8 +27,41 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface ValuesInterface {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
 export const SignUpForm: React.FC = () => {
     const classes = useStyles();
+
+    const [visible, setVisible] = useState(false);
+    const [disableButton, setDisableButton] = useState(true);
+    const [values, setValues] = useState({
+        firstName: undefined,
+        lastName: undefined,
+        email: undefined,
+        password: undefined,
+        confirmPassword: undefined,
+    });
+
+    const toggleVisibility = () => {
+        setVisible(!visible);
+    };
+
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
+        const newInputs = values;
+
+        // @ts-ignore
+        newInputs[e.target.id]=e.target.value;
+
+        setValues(newInputs);
+    }
+
 
     return (
         <React.Fragment>
@@ -45,6 +80,8 @@ export const SignUpForm: React.FC = () => {
                                 autoFocus
                                 variant="outlined"
                                 autoComplete="fname"
+                                onChange={onChange}
+                                value={values.firstName}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
@@ -56,6 +93,8 @@ export const SignUpForm: React.FC = () => {
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="lname"
+                                onChange={onChange}
+                                value={values.lastName}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
@@ -67,30 +106,54 @@ export const SignUpForm: React.FC = () => {
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="email"
+                                onChange={onChange}
+                                value={values.email}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
                             <TextField
                                 id="password"
-                                type="password"
+                                type={visible ? 'text' : 'password'}
                                 name="password"
                                 label="Password"
                                 required
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="current-password"
+                                onChange={onChange}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={toggleVisibility}>
+                                                {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
+                                value={values.password}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
                             <TextField
-                                id="confirm-password"
-                                type="password"
-                                name="confirm-password"
+                                id="confirmPassword"
+                                type={visible ? 'text' : 'password'}
+                                name="confirmPassword"
                                 label="Confirm Password"
                                 required
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="confirm-password"
+                                onChange={onChange}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={toggleVisibility}>
+                                                {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
+                                value={values.confirmPassword}
                             />
                         </Grid>
                     </Grid>
@@ -99,7 +162,7 @@ export const SignUpForm: React.FC = () => {
                             type="button"
                             variant="contained"
                             color="primary"
-                            disabled={true}
+                            disabled={disableButton}
                             className={classes.submit}
                             fullWidth={
                                 false

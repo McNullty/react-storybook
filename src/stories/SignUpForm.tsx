@@ -27,41 +27,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface ValuesInterface {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
-
 export const SignUpForm: React.FC = () => {
     const classes = useStyles();
 
     const [visible, setVisible] = useState(false);
     const [disableButton, setDisableButton] = useState(true);
-    const [values, setValues] = useState({
-        firstName: undefined,
-        lastName: undefined,
-        email: undefined,
-        password: undefined,
-        confirmPassword: undefined,
-    });
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
 
     const toggleVisibility = () => {
-        setVisible(!visible);
+        setVisible(!visible)
     };
 
+    useEffect(() => {
+        const enableButton =
+            firstName.length > 0 &&
+            lastName.length > 0 &&
+            email.length > 0 &&
+            password.length > 0 && password === confirmPassword;
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
-        const newInputs = values;
-
-        // @ts-ignore
-        newInputs[e.target.id]=e.target.value;
-
-        setValues(newInputs);
-    }
-
+        setDisableButton(!enableButton);
+    }, [firstName, lastName, email, password, confirmPassword]);
 
     return (
         <React.Fragment>
@@ -80,8 +69,8 @@ export const SignUpForm: React.FC = () => {
                                 autoFocus
                                 variant="outlined"
                                 autoComplete="fname"
-                                onChange={onChange}
-                                value={values.firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                value={firstName}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
@@ -93,8 +82,8 @@ export const SignUpForm: React.FC = () => {
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="lname"
-                                onChange={onChange}
-                                value={values.lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                value={lastName}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
@@ -106,8 +95,8 @@ export const SignUpForm: React.FC = () => {
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="email"
-                                onChange={onChange}
-                                value={values.email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
@@ -120,7 +109,7 @@ export const SignUpForm: React.FC = () => {
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="current-password"
-                                onChange={onChange}
+                                onChange={(e) => setPassword(e.target.value)}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -130,7 +119,7 @@ export const SignUpForm: React.FC = () => {
                                         </InputAdornment>
                                     )
                                 }}
-                                value={values.password}
+                                value={password}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.field}>
@@ -143,7 +132,7 @@ export const SignUpForm: React.FC = () => {
                                 fullWidth
                                 variant="outlined"
                                 autoComplete="confirm-password"
-                                onChange={onChange}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -153,7 +142,7 @@ export const SignUpForm: React.FC = () => {
                                         </InputAdornment>
                                     )
                                 }}
-                                value={values.confirmPassword}
+                                value={confirmPassword}
                             />
                         </Grid>
                     </Grid>

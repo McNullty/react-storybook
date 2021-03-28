@@ -27,6 +27,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface FieldErrorType {
+    objectName: string
+    field: string
+    message: string
+}
+
+interface FieldErrorsType {
+
+}
+
 export const SignUpForm: React.FC = () => {
     const classes = useStyles();
 
@@ -155,6 +165,15 @@ export const SignUpForm: React.FC = () => {
                             className={classes.submit}
                             fullWidth={
                                 false
+                            }
+                            onClick={() => {
+                                console.group("Button data");
+                                console.log("First name: " + firstName);
+                                console.log("Last name: " + lastName);
+                                console.log("Email: " + email);
+                                console.log("Password: " + password);
+                                console.groupEnd();
+                                }
                             }
                         >
                             Create Account

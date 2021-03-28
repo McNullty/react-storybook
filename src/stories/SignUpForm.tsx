@@ -37,7 +37,11 @@ interface FieldErrorsType {
 
 }
 
-export const SignUpForm: React.FC = () => {
+export interface SignUpFormProps {
+    callback: (firstName: string, lastName: string, email: string, password: string) => void;
+}
+
+export const SignUpForm: React.FC<SignUpFormProps> = ({callback}) => {
     const classes = useStyles();
 
     const [visible, setVisible] = useState(false);
@@ -61,6 +65,7 @@ export const SignUpForm: React.FC = () => {
 
         setDisableButton(!enableButton);
     }, [firstName, lastName, email, password, confirmPassword]);
+
 
     return (
         <React.Fragment>
@@ -166,14 +171,7 @@ export const SignUpForm: React.FC = () => {
                             fullWidth={
                                 false
                             }
-                            onClick={() => {
-                                console.group("Button data");
-                                console.log("First name: " + firstName);
-                                console.log("Last name: " + lastName);
-                                console.log("Email: " + email);
-                                console.log("Password: " + password);
-                                console.groupEnd();
-                                }
+                            onClick={() => { callback(firstName, lastName, email, password); }
                             }
                         >
                             Create Account
